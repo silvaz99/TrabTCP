@@ -2,10 +2,7 @@ import tkinter # note that module name has changed from Tkinter in Python 2 to t
 from tkinter import *
 from PIL import Image, ImageTk
 
-def donothing():
-    filewin = Toplevel(root)
-    button = Button(filewin, text="Do nothing button")
-    button.pack()
+
 
 class Window(Frame):
     # Define settings upon initialization. Here you can specify
@@ -63,6 +60,7 @@ class Window(Frame):
         img = Label(self, image=render)
         img.image = render
         img.place(x=0, y=0)
+
     def showText(self):
         text = Label(self, text="Hey there good lookin!")
         text.pack()
