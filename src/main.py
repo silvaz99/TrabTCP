@@ -1,6 +1,7 @@
 # Trabalho TCP 2018/2
 from classes import *
-from TKinterface import *
+# from TKinterface import *
+from QtInterface import *
 
 
 def mapeia(char, varMidi, varMusica):
@@ -60,53 +61,20 @@ def mapeia(char, varMidi, varMusica):
         varGerMusica.hz_to_MIDI(varMidi, varMusica)
 
 
-def main():
-    root = tkinter.Tk()
-    # root2 = tkinter.Tk()
-    root.geometry("800x480")
-    # app = Window(root)
-    # menubar = Menu(root)
+def main(args):
+    app = QApplication(args)
+    window = Window()
+    sys.exit(app.exec_())
 
-    t = Texto("ABCDEFG")
-    t.geraTXT()
 
+
+def mapeia1(string):
+    t = Texto()
+    t.geraTXT(string)
     # Colocar todas os caracteres do saida.txt no data
     with open('saida.txt') as f:
         data = f.read()
 
-    # layout all of the main containers
-    root.grid_rowconfigure(1, weight=1)
-    root.grid_columnconfigure(2, weight=1)
-
-    # root2.grid_rowconfigure(1, weight=1)
-    # root2.grid_columnconfigure(1, weight=1)
-
-
-    f1 = Frame(root, height = 120, width = 120)
-    f1.grid(row = 2, column = 1)
-    f2 = Frame(root, height = 120, width = 120)
-    f2.grid(row = 2, column = 2)
-
-    loadimage = PhotoImage(file = "dest.png")
-    PlayButton = Button(f1, image = loadimage, command = lambda:mapeia1(data))
-    PlayButton["bg"] = "white"
-    PlayButton["border"] = "0"
-    # PlayButton.grid(row=2, column=3, columnspan=2)
-    PlayButton.pack(side="top", fill=BOTH)
-
-    loadimage2 = PhotoImage(file = "stop2.png")
-    StopButton = Button(f2, image = loadimage2, command = lambda:exit())
-    StopButton["bg"] = "white"
-    StopButton["border"] = "0"
-    # StopButton.grid(row=2, column=3, columnspan=2)
-    StopButton.pack(side="top", fill=BOTH)
-
-    # b = Button(f, text="OK", command = lambda:mapeia1(data))
-    # b.pack(fill=BOTH, expand=1)
-    root.mainloop()
-
-
-def mapeia1(data):
     varMidi = Midi("output.mid", 0, 0, 0, 100, 1)          #name, track, time, channel, volume, duration
     varMusica = Musica(120)
     varMusica.setOitava(12)
@@ -115,6 +83,5 @@ def mapeia1(data):
         mapeia(i, varMidi, varMusica)
 
 
-
 if __name__ == '__main__':
-    main()
+    main(sys.argv)

@@ -6,7 +6,7 @@ from main import *
 # from PyQt5.QtGui import *
 # from PyQt5.QtWidgets import *
 # from PyQt5.QtCore import *
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QGridLayout, QPlainTextEdit, QMainWindow, QTextEdit,QMenuBar, QAction, QToolBar, QMessageBox, qApp
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QGridLayout, QPlainTextEdit, QMainWindow, QTextEdit,QMenuBar, QAction, QToolBar, QMessageBox, qApp, QFileDialog
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Window(QWidget):
@@ -25,7 +25,6 @@ class Window(QWidget):
     def initUi(self):
 
         self.button = QPushButton(' Play ')
-        self.buttonPause = QPushButton(' Quit ')
         self.text_edit = QPlainTextEdit()
 
         self.MenuBar = QMenuBar()
@@ -34,7 +33,7 @@ class Window(QWidget):
         Exit = self.MenuBar.addAction('', self.exit)
         Exit.setIcon(QtGui.QIcon('exit.png'))
 
-        
+        Menu.addAction('Open File', self.openfiles)
 
 
         self.label = QLabel()
@@ -54,9 +53,9 @@ class Window(QWidget):
         self.button.setIcon(QtGui.QIcon('dest.png'))
         self.button.setIconSize(QtCore.QSize(36,24))
 
-        self.buttonPause.clicked.connect(self.exit)
-        self.buttonPause.setIcon(QtGui.QIcon('stop2.png'))
-        self.buttonPause.setIconSize(QtCore.QSize(36,24))
+        # self.buttonPause.clicked.connect(self.exit)
+        # self.buttonPause.setIcon(QtGui.QIcon('stop2.png'))
+        # self.buttonPause.setIconSize(QtCore.QSize(36,24))
 
 
         self.setLayout(self.layout)
@@ -96,6 +95,13 @@ class Window(QWidget):
             text[-1] = ''
             text = ''.join(text)
             return mapeia1(text)
+
+    def openfiles(self):
+        filename = QFileDialog.getOpenFileName(None, 'Pasta', os.getcwd(), 'All Files(*.*)')
+        print(type(filename))
+        arquivo = open(filename[0], 'r')
+        mapeia1(arquivo.read())
+
 
     def exit(self):
         exit()
