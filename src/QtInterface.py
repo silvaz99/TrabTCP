@@ -2,10 +2,6 @@ import sys
 from random import randint
 from main import *
 
-# from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QGridLayout
-# from PyQt5.QtGui import *
-# from PyQt5.QtWidgets import *
-# from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QGridLayout, QPlainTextEdit, QMainWindow, QTextEdit,QMenuBar, QAction, QToolBar, QMessageBox, qApp, QFileDialog
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -47,9 +43,9 @@ class Window(QWidget):
         self.layout.addWidget(self.text_edit, 1, 0)
         # self.layout.addWidget(self.label, 0, 0)
 
-        text = self.text_edit.textChanged.connect(lambda: self.carregaTexto(self.text_edit, self.label))
+        # self.text_edit.textChanged.connect(lambda: self.carregaTexto(self.text_edit, self.label))
         # print(text)
-        self.button.clicked.connect(lambda: self.carregaTexto(text, self.label))
+        self.button.clicked.connect(lambda: self.carregaTexto(self.text_edit.toPlainText(), self.label))
         self.button.setIcon(QtGui.QIcon('dest.png'))
         self.button.setIconSize(QtCore.QSize(36,24))
 
@@ -86,15 +82,14 @@ class Window(QWidget):
         value = str(randint(self.low, self.high))
         self.label.setText(value)
 
-    def carregaTexto(self, text_edit, label):
-        text = text_edit.toPlainText()
-        self.button.clicked.connect(lambda : mapeia1(text))
+    def carregaTexto(self, text, label):
+        mapeia1(text)
 
-        if '\n' in text:
-            text = list(text)
-            text[-1] = ''
-            text = ''.join(text)
-            return mapeia1(text)
+        # if '\n' in text:
+        #     text = list(text)
+        #     text[-1] = ''
+        #     text = ''.join(text)
+        #     mapeia1(text)
 
     def openfiles(self):
         filename = QFileDialog.getOpenFileName(None, 'Pasta', os.getcwd(), 'All Files(*.*)')

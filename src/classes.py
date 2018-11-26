@@ -16,11 +16,9 @@ CHUNK = 1024
 # classe Tratamento de Texto
 class Texto:
     """Classe que gera o .txt com o texto digitado"""
-    def __init__(self, texto): # Construtor
-        self.txt = texto
-
-    def geraTXT(self):
+    def geraTXT(self, texto):
         """Gera arquivo saida.txt."""
+        self.txt = texto
         self.f = open('saida.txt', 'w')
         self.f.write(self.txt)
         self.f.close()
@@ -28,26 +26,27 @@ class Texto:
 class GerenciaMusica:
     def load(self, string, oitava):
         y, sr = librosa.load(string) # Carrega Antigo WAV
-        new_wav = librosa.effects.pitch_shift(y, sr, oitava) # cria um array novo com a oitava definida num => cont(oitava)
-        return y, sr, new_wav
+        wav = librosa.effects.pitch_shift(y, sr, oitava) # cria um array novo com a oitava definida num => cont(oitava)
+        return y, sr, wav
 
     def hz_to_MIDI(self, varMidi, varMusica): # Conversão de HZ para notas MIDI
-        y , sr, new_wav = self.load(varMusica.getAntigoWav(), varMusica.getOitava())
-        tempo, beats = librosa.beat.beat_track(onset_envelope = new_wav[:200], sr=sr)
-        varMusica.GeneralMIDI = librosa.hz_to_midi(tempo)
+        y , sr, wav = self.load(varMusica.getAntigoWav(), varMusica.getOitava())
+        tempo, beats = librosa.beat.beat_track(onset_envelope = wav[:200], sr=sr)
 
+        varMusica.GeneralMIDI = librosa.hz_to_midi(tempo)
         print("varMusica general Midi {}".format(varMusica.GeneralMIDI))
         varMidi.funcao_do_midi(varMusica.GeneralMIDI)
         self.criaWav('file3.wav', 'novissimo.wav', varMusica)
 
-    def criaWav(self, new_wav, novo_nome, varMusica):
-        y, sr, new_wav = self.load(new_wav, varMusica.getOitava())
-        sf.write(novo_nome, new_wav, sr, 'PCM_24')
-        self.tocaMusica(novo_nome)
+    def criaWav(self, wav, final_wav, varMusica):
+        y, sr, wav = self.load(wav, varMusica.getOitava())
+        wav[:] = wav[:] * varMusica.getVolume() # Aumenta o volume ou incrementa em 10%
+        sf.write(final_wav, wav, sr, 'PCM_24') #Função que cria o .wav em novo_nome
+        self.tocaMusica(final_wav)
 
-    def tocaMusica(self, string):
+    def tocaMusica(self, wav):
         #open a wav format music
-        wf = wave.open(string, 'rb')
+        wf = wave.open(wav, 'rb')
         #instantiate PyAudio
         p = pyaudio.PyAudio()
 
@@ -75,13 +74,8 @@ class GerenciaMusica:
 
 class Midi:
     """Classe Midi"""
-    name = ""
-    track = 0
-    time = 0
-    channel = 0
-    volume = 0
-    duration = 0
-    MIDINOTE = 0
+    #Atributos Privados '__'
+    midinote = 0
 
     def __init__(self, name, track, time, channel, volume, duration): #Construtor
         self.name = name
@@ -90,6 +84,10 @@ class Midi:
         self.channel = channel
         self.time = time
         self.track = track
+
+    def setNovo(self):
+        self.midi = MIDIFile(1) # create my MIDI file
+        self.midiTime = 0
 
     def setName(self, name):
         self.name = name
@@ -116,7 +114,7 @@ class Midi:
         return self.Name
 
     def getVolume(self):
-        return self.volume
+        return self.__volume
 
     def getChannel(self):
         return self.channel
@@ -127,13 +125,27 @@ class Midi:
     def getDuration(self):
         return self.duration
 
+    def addNoteToMidi(self, nota):
+        '''Adicionando cada nota .mid ao .mid que vai conter todas as notas'''
+        self.midi.addTempo(self.track, self.midiTime, 120) #120 bpm
+        # Cria .mid com a nota vinda do parametro
+        self.midi.addNote(self.track, self.channel, int(nota), self.midiTime, self.duration, 127) #Coloca Nota musical no arquivo
+        self.midiTime = self.midiTime + 2
+
+    def setMIDI(self):
+        with open('outmid2.mid', 'wb') as outf:
+            self.midi.writeFile(outf)
+
     def funcao_do_midi(self, notas):
         mf = MIDIFile(1) # create my MIDI file
         mf.addTrackName(self.track, self.time, self.name)
         mf.addTempo(self.track, self.time, 120) #120 bpm
-        self.MIDINOTE = notas
+        self.midinote = notas
         # Cria .mid com a nota vinda do parametro
         mf.addNote(self.track, self.channel, int(notas), self.time, self.duration, 127) #Coloca Nota musical no arquivo
+        # Para Criar o BIG MIDI
+        self.addNoteToMidi(int(notas))
+
         with open(self.name, 'wb') as outf:
             mf.writeFile(outf)
 
@@ -145,17 +157,33 @@ class Midi:
 # Musica => Midi
 class Musica(Midi):
     """Classe Música"""
-    bpm = 0
-    antigoWav = ""
-    novoWav = ""
-    oitava = 0
-    GeneralMIDI = Midi.MIDINOTE
+    __bpm = 0
+    __antigoWav = ""
+    __novoWav = ""
+    __oitava = 0
+    __volume = 1
+    GeneralMIDI = 0
 
     def __init__(self, bpm):
         self.bpm = bpm
 
     def setGenMIDI(self, nota):
         self.GeneralMIDI = nota
+
+    def doubleVolume(self):
+        '''Dobra o volume'''
+        self.__volume = self.__volume * 2
+
+    def halfVolume(self):
+        '''Corta o volume pela metade'''
+        self.__volume = self.__volume / 2
+
+    def IncrementVolume(self):
+        '''Aumenta o volume em 10%'''
+        self.__volume = self.__volume * (1.1)
+
+    def getVolume(self):
+        return self.__volume
 
     def getGenMIDI(self):
         return self.GeneralMIDI
