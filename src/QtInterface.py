@@ -1,3 +1,7 @@
+#TAD responsável pelo controle e manutenção da interface
+
+
+#importação de algumas bibliotecas para o funcionamento do programa
 import sys
 from random import randint
 from main import *
@@ -5,8 +9,11 @@ from main import *
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QGridLayout, QPlainTextEdit, QMainWindow, QTextEdit,QMenuBar, QAction, QToolBar, QMessageBox, qApp, QFileDialog
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Window(QWidget):
 
+#Classe responsável pelo gerenciamento da interface
+class Window(QWidget):
+    
+    #Contrututor da interface
     def __init__(self):
 
         super().__init__()
@@ -17,23 +24,24 @@ class Window(QWidget):
 
         self.show()
 
-
+    #Contrututor de partes da interface, como botões e barra de menu
     def initUi(self):
-
+        #botão de play
         self.button = QPushButton(' Play ')
         self.text_edit = QPlainTextEdit()
-
+        
+        #barra de menu   
         self.MenuBar = QMenuBar()
         Menu = self.MenuBar.addMenu('File')
-
+        
+        #botão de saída
         Exit = self.MenuBar.addAction('', self.exit)
         Exit.setIcon(QtGui.QIcon('exit.png'))
 
         Menu.addAction('Open File', self.openfiles)
 
-
+        #configuração de design da interface, como tamanho, posição etc.
         self.label = QLabel()
-
 
         self.layout = QGridLayout()
         # self.layout.columnMinimumWidth(10)
@@ -53,7 +61,8 @@ class Window(QWidget):
         # self.buttonPause.setIcon(QtGui.QIcon('stop2.png'))
         # self.buttonPause.setIconSize(QtCore.QSize(36,24))
 
-
+         
+        #configuração de design da interface, como tamanho, posição etc.
         self.setLayout(self.layout)
         self.setGeometry(500, 100, 500, 500)
 
@@ -76,12 +85,14 @@ class Window(QWidget):
     #
     #     self.about_action.triggered.connect(self.exit)
     #     help_menu.addAction(self.about_action)
-
+    
+    
+    #método que realiza a ação do botão
     def on_button_clicked(self):
-
         value = str(randint(self.low, self.high))
         self.label.setText(value)
 
+    #método que carrega o texto digitado na interface e passa para o método que trata da string
     def carregaTexto(self, text, label):
         mapeia1(text)
 
@@ -91,12 +102,13 @@ class Window(QWidget):
         #     text = ''.join(text)
         #     mapeia1(text)
 
+    #método que lê o que foi salvo em uma variável que contia o conteúdo digitado na interface e passa para o método de tratamento da string 
     def openfiles(self):
         filename = QFileDialog.getOpenFileName(None, 'Pasta', os.getcwd(), 'All Files(*.*)')
-        print(type(filename))
+        #print(type(filename))
         arquivo = open(filename[0], 'r')
         mapeia1(arquivo.read())
 
-
+    #método de saída do programa
     def exit(self):
         exit()
