@@ -1,3 +1,6 @@
+#TAD que reúne todas as principais classes e seus contrutores.
+
+#importação de algumas bibliotecas para o funcionamento do programa
 from __future__ import print_function
 from midiutil.MidiFile import MIDIFile
 import numpy as np
@@ -10,10 +13,10 @@ import soundfile as sf
 # Importar um módulo de outra pasta
 import importlib.util
 
-
+#Definição de uma constante
 CHUNK = 1024
 
-# classe Tratamento de Texto
+#classe que faz o tratamento de texto
 class Texto:
     """Classe que gera o .txt com o texto digitado"""
     def geraTXT(self, texto):
@@ -23,13 +26,16 @@ class Texto:
         self.f.write(self.txt)
         self.f.close()
 
+#classe responsável pelo gerenciamento da musica
 class GerenciaMusica:
+    #Método que carrega Antigo WAV e tranforma-o em um novo, de acordo com a leitura da string
     def load(self, string, oitava):
         y, sr = librosa.load(string) # Carrega Antigo WAV
-        wav = librosa.effects.pitch_shift(y, sr, oitava) # cria um array novo com a oitava definida num => cont(oitava)
+        wav = librosa.effects.pitch_shift(y, sr, oitava) # cria um array novo com a oitava definida, wav = Antigo WAV
         return y, sr, wav
 
-    def hz_to_MIDI(self, varMidi, varMusica): # Conversão de HZ para notas MIDI
+    #Conversão de HZ para notas MIDI
+    def hz_to_MIDI(self, varMidi, varMusica):
         y , sr, wav = self.load(varMusica.getAntigoWav(), varMusica.getOitava())
         tempo, beats = librosa.beat.beat_track(onset_envelope = wav[:200], sr=sr)
 
@@ -38,12 +44,14 @@ class GerenciaMusica:
         varMidi.funcao_do_midi(varMusica.GeneralMIDI)
         self.criaWav('file3.wav', 'novissimo.wav', varMusica)
 
+    #Cria nova wav com as especifícações encontradas na string lida
     def criaWav(self, wav, final_wav, varMusica):
         y, sr, wav = self.load(wav, varMusica.getOitava())
         wav[:] = wav[:] * varMusica.getVolume() # Aumenta o volume ou incrementa em 10%
         sf.write(final_wav, wav, sr, 'PCM_24') #Função que cria o .wav em novo_nome
         self.tocaMusica(final_wav)
 
+    #Método que irá tocar a música já configurada
     def tocaMusica(self, wav):
         #open a wav format music
         wf = wave.open(wav, 'rb')
@@ -59,7 +67,7 @@ class GerenciaMusica:
         #read data
         data = wf.readframes(CHUNK)
 
-        #play stream
+        #play stream / tocando
         while data != b'':
             stream.write(data)
             data = wf.readframes(CHUNK)
@@ -71,12 +79,13 @@ class GerenciaMusica:
         p.terminate()
         # return stringNova
 
-
+#Classe do MIDI
 class Midi:
     """Classe Midi"""
     #Atributos Privados '__'
     midinote = 0
 
+    #Contrutor do MIDI
     def __init__(self, name, track, time, channel, volume, duration): #Construtor
         self.name = name
         self.duration = duration
@@ -85,10 +94,12 @@ class Midi:
         self.time = time
         self.track = track
 
+    #Define um novo arquivo com o formato MIDI
     def setNovo(self):
         self.midi = MIDIFile(1) # create my MIDI file
         self.midiTime = 0
 
+    #Mais alguns construtores, setter's e getter's
     def setName(self, name):
         self.name = name
 
@@ -131,11 +142,13 @@ class Midi:
         # Cria .mid com a nota vinda do parametro
         self.midi.addNote(self.track, self.channel, int(nota), self.midiTime, self.duration, 127) #Coloca Nota musical no arquivo
         self.midiTime = self.midiTime + 2
-
+        
+    #Setter do MIDI
     def setMIDI(self):
         with open('outmid2.mid', 'wb') as outf:
             self.midi.writeFile(outf)
 
+    #Define o novo MIDI a ser salvo com as devidas configurações
     def funcao_do_midi(self, notas):
         mf = MIDIFile(1) # create my MIDI file
         mf.addTrackName(self.track, self.time, self.name)
@@ -154,7 +167,7 @@ class Midi:
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
 
-# Musica => Midi
+#Classe Musica que define alguns atributos inicias da música; Musica => Midi
 class Musica(Midi):
     """Classe Música"""
     __bpm = 0
@@ -164,6 +177,8 @@ class Musica(Midi):
     __volume = 1
     GeneralMIDI = 0
 
+    
+    #Construtores, setter's e getter's da classe Musica
     def __init__(self, bpm):
         self.bpm = bpm
 
