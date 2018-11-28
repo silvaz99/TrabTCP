@@ -11,13 +11,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 #Classe responsável pelo gerenciamento da interface
-class Window(QWidget):
+class InterfaceWindow(QWidget):
 
     #Contrututor da interface
     def __init__(self):
 
         super().__init__()
-        self.initUi()
+        self.iniciaUi()
 
         self.low = 10
         self.high = 100
@@ -25,7 +25,7 @@ class Window(QWidget):
         self.show()
 
     #Contrututor de partes da interface, como botões e barra de menu
-    def initUi(self):
+    def iniciaUi(self):
         #botão de play
         self.button = QPushButton(' Play ')
         self.text_edit = QPlainTextEdit()
