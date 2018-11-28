@@ -1,4 +1,4 @@
-#TAD que reúne todas as principais classes e seus contrutores.
+#Módulo que reúne todas as principais classes e seus contrutores.
 
 #importação de algumas bibliotecas para o funcionamento do programa
 from __future__ import print_function
@@ -25,10 +25,11 @@ class Texto:
         self.f = open('saida.txt', 'w')
         self.f.write(self.txt)
         self.f.close()
+        return self.txt
 
 #classe responsável pelo gerenciamento da musica
 class GerenciaMusica:
-    
+
     #Método que carrega Antigo WAV e tranforma-o em um novo, de acordo com a leitura da string
     def load(self, string, oitava):
         y, sr = librosa.load(string) # Carrega Antigo WAV

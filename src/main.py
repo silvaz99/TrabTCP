@@ -2,6 +2,9 @@
 from classes import *
 from QtInterface import *
 
+# python3 main.py file.mid [tracknum] [file.wav]  [--syn_b/--syn_c/--syn_d/--syn_e/--syn_p/--syn_s/--syn_samp]
+
+
 #Método que irá mapear cada caractere lido na string recebida pelo usuário em uma ação conforme o enunciado do trabalho
 def mapeiaCaractere(char, varMidi, varMusica):
     # print(char, "\n\n")
@@ -71,7 +74,7 @@ def mapeiaCaractere(char, varMidi, varMusica):
 
     elif char == 'a' or char == 'b' or char == 'c' or char == 'd' or char == 'e' or char == 'f' or char == 'g':
         '''Se vem esses caracteres toca a nota(.wav) que já esta armazenado na varMusica'''
-        if varMusica.getAntigoWav():
+        if varMusica.getAntigoWav() != "../Pasta_dos_Arquivos/silence.wav" and varMusica.getAntigoWav() != "":
             varGerMusica.hz_to_MIDI(varMidi, varMusica)
         else:
             varMusica.setAntigoWav("../Pasta_dos_Arquivos/silence.wav")
@@ -86,7 +89,10 @@ def mapeiaCaractere(char, varMidi, varMusica):
 
     #Qualquer consoante que não as notas
     elif ord(char) >= 72 or ord(char) <= 90 or ord(char) >= 104 or ord(char) <= 122:
-        varGerMusica.hz_to_MIDI(varMidi, varMusica)
+        if varMusica.getAntigoWav() == "../Pasta_dos_Arquivos/silence.wav":
+            varGerMusica.criaWav('../Pasta_dos_Arquivos/novo_silence.wav', 'novissimo.wav', varMusica)
+        else:
+            varGerMusica.hz_to_MIDI(varMidi, varMusica)
 
     #Silêncio
     else:
@@ -101,10 +107,8 @@ def main(args):
     window = Window()
     sys.exit(app.exec_())
 
-#Pré mapeamento dos caracteres da string recebida do usuário
-def preMapeamento(string):
-    # print(string, "\n\n")
-
+#Inicialização das estruturas varMusica e varMidi.
+def InicializaEstruturas(string):
     t = Texto()
     t.geraTXT(string)
     # Colocar todas os caracteres do saida.txt no data

@@ -1,1 +1,10 @@
 language: python
+
+python:
+- "3.6"
+
+before_script:
+- composer install --no-interaction
+
+script:
+- src/main
