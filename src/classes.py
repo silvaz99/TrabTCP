@@ -142,7 +142,7 @@ class Midi:
         # Cria .mid com a nota vinda do parametro
         self.midi.addNote(self.track, self.channel, int(nota), self.midiTime, self.duration, 127) #Coloca Nota musical no arquivo
         self.midiTime = self.midiTime + 2
-        
+
     #Setter do MIDI
     def setMIDI(self):
         with open('outmid2.mid', 'wb') as outf:
@@ -170,14 +170,14 @@ class Midi:
 #Classe Musica que define alguns atributos inicias da música; Musica => Midi
 class Musica(Midi):
     """Classe Música"""
-    __bpm = 0
-    __antigoWav = ""
-    __novoWav = ""
-    __oitava = 0
-    __volume = 1
+    bpm = 0
+    antigoWav = ""
+    novoWav = ""
+    oitava = 0
+    volume = 1
     GeneralMIDI = 0
 
-    
+
     #Construtores, setter's e getter's da classe Musica
     def __init__(self, bpm):
         self.bpm = bpm
@@ -187,18 +187,18 @@ class Musica(Midi):
 
     def doubleVolume(self):
         '''Dobra o volume'''
-        self.__volume = self.__volume * 2
+        self.volume = self.volume * 2
 
     def halfVolume(self):
         '''Corta o volume pela metade'''
-        self.__volume = self.__volume / 2
+        self.volume = self.volume / 2
 
     def IncrementVolume(self):
         '''Aumenta o volume em 10%'''
-        self.__volume = self.__volume * (1.1)
+        self.volume = self.volume * (1.1)
 
     def getVolume(self):
-        return self.__volume
+        return self.volume
 
     def getGenMIDI(self):
         return self.GeneralMIDI

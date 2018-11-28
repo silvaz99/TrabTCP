@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 #Classe responsável pelo gerenciamento da interface
 class Window(QWidget):
-    
+
     #Contrututor da interface
     def __init__(self):
 
@@ -29,11 +29,11 @@ class Window(QWidget):
         #botão de play
         self.button = QPushButton(' Play ')
         self.text_edit = QPlainTextEdit()
-        
-        #barra de menu   
+
+        #barra de menu
         self.MenuBar = QMenuBar()
         Menu = self.MenuBar.addMenu('File')
-        
+
         #botão de saída
         Exit = self.MenuBar.addAction('', self.exit)
         Exit.setIcon(QtGui.QIcon('exit.png'))
@@ -61,7 +61,7 @@ class Window(QWidget):
         # self.buttonPause.setIcon(QtGui.QIcon('stop2.png'))
         # self.buttonPause.setIconSize(QtCore.QSize(36,24))
 
-         
+
         #configuração de design da interface, como tamanho, posição etc.
         self.setLayout(self.layout)
         self.setGeometry(500, 100, 500, 500)
@@ -85,8 +85,8 @@ class Window(QWidget):
     #
     #     self.about_action.triggered.connect(self.exit)
     #     help_menu.addAction(self.about_action)
-    
-    
+
+
     #método que realiza a ação do botão
     def on_button_clicked(self):
         value = str(randint(self.low, self.high))
@@ -102,7 +102,7 @@ class Window(QWidget):
         #     text = ''.join(text)
         #     mapeia1(text)
 
-    #método que lê o que foi salvo em uma variável que contia o conteúdo digitado na interface e passa para o método de tratamento da string 
+    #método que lê o que foi salvo em uma variável que contia o conteúdo digitado na interface e passa para o método de tratamento da string
     def openfiles(self):
         filename = QFileDialog.getOpenFileName(None, 'Pasta', os.getcwd(), 'All Files(*.*)')
         #print(type(filename))
