@@ -4,7 +4,7 @@ from classes import *
 from QtInterface import *
 
 #Método que irá mapear cada caractere lido na string recebida pelo usuário em uma ação conforme o enunciado do trabalho
-def mapeia(char, varMidi, varMusica):
+def mapeiaCaractere(char, varMidi, varMusica):
     # print(char, "\n\n")
     varGerMusica = GerenciaMusica()
     # ord() é o numero ASCII do char, se estiver entre 48 e 57 é um número
@@ -23,10 +23,10 @@ def mapeia(char, varMidi, varMusica):
         cont = 0
 
     elif char == ';':
-        varMidi.funcao_do_midi() #TEM QUE TOCAR General MIDI #76 (Pan Flute) NO CASO DE ';'
+        varMidi.criaNovoMIDI() #TEM QUE TOCAR General MIDI #76 (Pan Flute) NO CASO DE ';'
 
     elif char == ',':
-        varMidi.funcao_do_midi() #TEM QUE TOCAR eneral MIDI #20 (Church Organ) NO CASO DE ','
+        varMidi.criaNovoMIDI() #TEM QUE TOCAR eneral MIDI #20 (Church Organ) NO CASO DE ','
 
     #La
     elif char == 'A':
@@ -80,10 +80,10 @@ def mapeia(char, varMidi, varMusica):
             varGerMusica.criaWav('../Pasta_dos_Arquivos/novo_silence.wav', 'novissimo.wav', varMusica)
 
     elif char == '\n':
-        varMidi.funcao_do_midi(53) #General MIDI #15 (Tubular Bells) => 53
+        varMidi.criaNovoMIDI(53) #General MIDI #15 (Tubular Bells) => 53
 
     elif char == '!':
-        varMidi.funcao_do_midi(17) #General MIDI #7 (Harpsichord) => 17
+        varMidi.criaNovoMIDI(17) #General MIDI #7 (Harpsichord) => 17
 
     #Qualquer consoante que não as notas
     elif ord(char) >= 72 or ord(char) <= 90 or ord(char) >= 104 or ord(char) <= 122:
@@ -103,7 +103,7 @@ def main(args):
     sys.exit(app.exec_())
 
 #Pré mapeamento dos caracteres da string recebida do usuário
-def mapeia1(string):
+def preMapeamento(string):
     # print(string, "\n\n")
 
     t = Texto()
@@ -118,9 +118,9 @@ def mapeia1(string):
     varMusica = Musica(120)
     varMusica.setOitava(12)
 
-    # Mandar cada letra do texto para a função Mapeia
+    # Mandar cada letra do texto para a função mapeiaCaractere
     for i in data:
-        mapeia(i, varMidi, varMusica)
+        mapeiaCaractere(i, varMidi, varMusica)
 
     # Cria o MIDI final
     varMidi.setMIDI()
