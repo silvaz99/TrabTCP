@@ -94,20 +94,20 @@ class InterfaceWindow(QWidget):
 
     #método que carrega o texto digitado na interface e passa para o método que trata da string
     def carregaTexto(self, text, label):
-        mapeia1(text)
+        preMapeamento(text)
 
         # if '\n' in text:
         #     text = list(text)
         #     text[-1] = ''
         #     text = ''.join(text)
-        #     mapeia1(text)
+        #     preMapeamento(text)
 
     #método que lê o que foi salvo em uma variável que contia o conteúdo digitado na interface e passa para o método de tratamento da string
     def openfiles(self):
         filename = QFileDialog.getOpenFileName(None, 'Pasta', os.getcwd(), 'All Files(*.*)')
         #print(type(filename))
         arquivo = open(filename[0], 'r')
-        mapeia1(arquivo.read())
+        preMapeamento(arquivo.read())
 
     #método de saída do programa
     def exit(self):
