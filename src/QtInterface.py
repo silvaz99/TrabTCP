@@ -27,7 +27,7 @@ class InterfaceWindow(QWidget):
     #Contrututor de partes da interface, como botões e barra de menu
     def iniciaUi(self):
         #botão de play
-        self.button = QPushButton(' Play ')
+        self.button = QPushButton('Play')
         self.text_edit = QPlainTextEdit()
 
         #barra de menu
