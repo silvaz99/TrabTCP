@@ -1,6 +1,5 @@
 # Trabalho TCP 2018/2
 from classes import *
-# from TKinterface import *
 from QtInterface import *
 
 #Método que irá mapear cada caractere lido na string recebida pelo usuário em uma ação conforme o enunciado do trabalho
