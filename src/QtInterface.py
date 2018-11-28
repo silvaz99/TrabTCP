@@ -70,7 +70,7 @@ class Window(QWidget):
         inicializaEstruturas(text)
 
 
-    #método que lê o que foi salvo em uma variável que contia o conteúdo digitado na interface e passa para o método de tratamento da string
+    #método que lê o que foi salvo em uma variável que continha o conteúdo digitado na interface e passa para o método de tratamento da string
     def openfiles(self):
         filename = QFileDialog.getOpenFileName(None, 'Pasta', os.getcwd(), 'All Files(*.*)')
         #print(type(filename))
