@@ -8,8 +8,9 @@ from QtInterface import *
 #Método que irá mapear cada caractere lido na string recebida pelo usuário em uma ação conforme o enunciado do trabalho
 def mapeiaCaractere(char, varMidi, varMusica):
     # print(char, "\n\n")
-    varGerMusica = GerenciaMusica()
+    varGerMusica = GerenciaArquivos()
     # ord() é o numero ASCII do char, se estiver entre 48 e 57 é um número
+    # print('\n\n\n', sys.argv[3], '\n')
     if ord(char) >= 48 and ord(char) <= 57:
         varMusica.changeMIDI() # MIDI = MIDI + 2
 
@@ -118,7 +119,7 @@ def InicializaEstruturas(string):
     varMidi = Midi("output.mid", 0, 0, 0, 100, 1)#name, track, time, channel, volume, duration
     varMidi.setNovo()
 
-    varMusica = Musica(120)
+    varMusica = GerenciaMusica(120)
     varMusica.setOitava(12)
 
     # Mandar cada letra do texto para a função mapeiaCaractere

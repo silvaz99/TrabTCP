@@ -33,8 +33,8 @@ class Window(QWidget):
         Menu = self.MenuBar.addMenu('File')
 
         #botão de saída
-        Exit = self.MenuBar.addAction('', self.exit)
-        Exit.setIcon(QtGui.QIcon('exit.png'))
+        Exit = self.MenuBar.addAction('Exit', self.exit)
+        # Exit.setIcon(QtGui.QIcon('exit.png'))
 
         Menu.addAction('Open File', self.openfiles)
 

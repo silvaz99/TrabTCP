@@ -28,7 +28,7 @@ class Texto:
         return self.txt
 
 #classe responsável pelo gerenciamento da musica
-class GerenciaMusica:
+class GerenciaArquivos:
 
     #Método que carrega Antigo WAV e tranforma-o em um novo, de acordo com a leitura da string
     def load(self, string, oitava):
@@ -44,7 +44,7 @@ class GerenciaMusica:
         varMusica.GeneralMIDI = librosa.hz_to_midi(tempo)
         print("varMusica general Midi {}".format(varMusica.GeneralMIDI))
         varMidi.criaNovoMIDI(varMusica.GeneralMIDI)
-        self.criaWav('file3.wav', 'novissimo.wav', varMusica)
+        self.criaWav(sys.argv[3], 'novissimo.wav', varMusica)
 
     #Cria nova wav com as especifícações encontradas na string lida
     def criaWav(self, wav, final_wav, varMusica):
@@ -170,7 +170,7 @@ class Midi:
         spec.loader.exec_module(module)
 
 #Classe Musica que define alguns atributos inicias da música; Musica => Midi
-class Musica(Midi):
+class GerenciaMusica(Midi):
     """Classe Música"""
     bpm = 0
     antigoWav = ""
