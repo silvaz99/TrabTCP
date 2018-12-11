@@ -67,15 +67,15 @@ class Window(QWidget):
 
     #método que carrega o texto digitado na interface e passa para o método que trata da string
     def carregaTexto(self, text, label):
-        InicializaEstruturas(text)
+        inicializaEstruturas(text)
 
 
-    #método que lê o que foi salvo em uma variável que contia o conteúdo digitado na interface e passa para o método de tratamento da string
+    #método que lê o que foi salvo em uma variável que continha o conteúdo digitado na interface e passa para o método de tratamento da string
     def openfiles(self):
         filename = QFileDialog.getOpenFileName(None, 'Pasta', os.getcwd(), 'All Files(*.*)')
         #print(type(filename))
         arquivo = open(filename[0], 'r')
-        InicializaEstruturas(arquivo.read())
+        inicializaEstruturas(arquivo.read())
 
     #método de saída do programa
     def exit(self):

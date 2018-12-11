@@ -109,7 +109,7 @@ def main(args):
     sys.exit(app.exec_())
 
 #Inicialização das estruturas varMusica e varMidi.
-def InicializaEstruturas(string):
+def inicializaEstruturas(string):
     t = Texto()
     t.geraTXT(string)
     # Colocar todas os caracteres do saida.txt no data
